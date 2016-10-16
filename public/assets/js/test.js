@@ -4,6 +4,7 @@ var app = new Clarifai.App(
 );
 
 var clothesModel = "clothes-v2";
+var currentPrediction = "fail";
 
 window.onload = function() {
   //predictTest();
@@ -117,7 +118,7 @@ function predictTest() {
 //     return dataURL;
 // } 
 
-function predict(clothesModel, imgBase64, element) {
+function predict(clothesModel, imgBase64) {
   console.log('base64 ' + imgBase64);
   var info;
   app.models.predict(clothesModel, imgBase64).then(
@@ -125,7 +126,8 @@ function predict(clothesModel, imgBase64, element) {
       var data = predictCore(response);
       var category = data.split("|")[0];
       var type = data.split("|")[1];
-      element.id = type;
+      currentPrediction = type;
+      console.log(type);
     },
     function(err) {
       console.error('error: ' + err.message);
@@ -133,7 +135,6 @@ function predict(clothesModel, imgBase64, element) {
     }
     //re
   );
-  console.log(_response);
 }
 
 function predictCore(response) {
@@ -153,8 +154,8 @@ function predictCore(response) {
       var value = clothes[i].value;
       var id = clothes[i].id;
       var index = refCats.indexOf(id);
-      console.log(id);
-      console.log(value);
+      //console.log(id);
+      //console.log(value);
       if(index != -1 && value >= 0.1) {
         categories.push(id);
       }
@@ -163,9 +164,9 @@ function predictCore(response) {
       }
     }
     //No categories fit
-    console.log("hi");
-    console.log(categories);
-    console.log(types);
+    // console.log("hi");
+    // console.log(categories);
+    // console.log(types);
     if (categories.length == 0) {
       return "fail|fail";
     }
@@ -185,6 +186,6 @@ function predictCore(response) {
         info += "|fail";
       }
     }
-    console.log(info);
+    // console.log(info);
     return info;
 }
