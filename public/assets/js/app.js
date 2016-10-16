@@ -9,6 +9,7 @@ var refCats = ["shirts","bottoms","outerwear"];
 var refItems = [["ssleeve","polo","lbutton","lsleeve","sbutton","tanks.dat"],
    ["chino","jeans","shorts"],
    ["djacket","hjacket","hoodies","ljacket","sweaters"]];
+var numClothes = 4;
 
 window.onload = function() {
     if (navigator.geolocation) {
@@ -19,6 +20,7 @@ window.onload = function() {
             ' is not enabled in your browser.' +
             ' Please use a browser which supports it.');
     }
+    processImages();
 };
 
 function fetchData(lat, long) {
@@ -112,6 +114,14 @@ function predictCore(response) {
     }
     console.log(info);
     return info;
+}
+
+function processImages() {
+  for(var i = 0; i < numClothes; i++) {
+    var filename = "assets/img/" + i + ".jpg";
+    //predict(clothesModel, filename);
+    getCloset(filename);
+  }
 }
 
 function rgbToHex(r, g, b) {
