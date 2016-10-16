@@ -1,27 +1,89 @@
 /*
-This is the css file for dress4weather.
+This is the css file for outfitit.
 */
 
-h1 {
-	margin: auto;
+body {
+	margin: 0;
 }
 
-.clothes, #head, #shoes {
-	background-color: cyan;
+/* Index.html */
+
+#header-content {
+	color: white;
+	position: absolute;
+
+	left: 5%;
+	top: 35px;
 }
 
-.clothes {
-	height: 200px;
-	width: 200px;
+#header-content h1, #header-content h4 {
+	margin: 0;
 }
 
-#head, #shoes {
-	margin: auto;
-	height : 100px;
-	width: 100px;
+#header {
+	background-color: blue;
+	width: 100%;
+	height: 150px;
+	position: relative;
 }
 
-#selection {
-	margin-left: 50px;
-	width: 200px;
+#content {
+	padding: 0 5%;
+}
+
+#intro {
+	width: 65%;
+	float: left;
+}
+
+#sample-grid {
+	width: 35%;
+	float: left;
+}
+
+#sample-grid img {
+	width: 100%;
+}
+
+.button {
+	padding: 5px 10px;
+	background-color: black;
+	color: white;
+	position: absolute;
+}
+
+.button:hover {
+	background-color: gray;
+}
+
+#intro-butt {
+	background-color: blue;
+}
+
+#intro-butt:hover {
+	background-color: lightblue;
+}
+
+#footer {
+	background-color: lightgray;
+	width: 100%;
+	height: 50px;
+	position: absolute;
+
+	bottom: 0;
+}
+
+#footer-content {
+	text-align: center;
+}
+
+
+/* Main.html */
+#desc {
+	width: 25%;
+	float: left;
+}
+
+#pers-grid {
+	width: 50%;
 }
