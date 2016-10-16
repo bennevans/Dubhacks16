@@ -3,73 +3,127 @@ This is the css file for outfitit.
 */
 
 body {
+	font-family: "Raleway", sans-serif;
 	margin: 0;
+	padding: 0;
+	background-color: #EEE;
 }
 
 /* Index.html */
 
+#wrapper {
+	min-height: 100%;
+	position: relative;
+}
+
 #header-content {
-	color: white;
+	color: gray;
 	position: absolute;
 
 	left: 5%;
-	top: 35px;
+	bottom: 10px;
 }
 
-#header-content h1, #header-content h4 {
+#header-content h1 {
+	padding: 0;
+	margin: 0;
+}
+
+#header-content-r {
+	position: absolute;
+	color: gray;
+	right: 5%;
+
+	height: 45%;
+	bottom: 10px;
+}
+
+#header-content-r p {
+	padding: 0;
 	margin: 0;
 }
 
 #header {
-	background-color: blue;
+	background-color: white;
+	border-bottom: 1.5px solid #C9C5FA;
 	width: 100%;
-	height: 150px;
+	height: 65px;
 	position: relative;
 }
 
 #content {
-	padding: 0 5%;
+	padding: 50px;
+	width: 90%;
+	overflow: hidden;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+#intro, #sample-grid {
+	display: inline-block; 
+	vertical-align: top;
 }
 
 #intro {
-	width: 65%;
-	float: left;
+	width: 37%;
+	padding: 10px 4% 30px 4%;
+	background-color: white;
+	border: 1px solid lightgray;
+}
+
+#intro p {
+	line-height: 25px;
 }
 
 #sample-grid {
-	width: 35%;
-	float: left;
+	width: 47%;
+	height: 500px;
 }
 
 #sample-grid img {
 	width: 100%;
+	min-width: 300px;
+	min-height: 300px;
+
+	max-width: 450px;
+	max-height: 450px;
+	overflow: hidden;
+}
+
+a {
+	text-decoration: none;
+	color: gray;
+}
+
+a:hover {
+	color: #9F99DD;
+
 }
 
 .button {
-	padding: 5px 10px;
-	background-color: black;
+	padding: 15px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: #B5AEF9;
 	color: white;
-	position: absolute;
+	text-align: center;
 }
 
 .button:hover {
-	background-color: gray;
+	background-color: #9F99DD;
 }
 
-#intro-butt {
-	background-color: blue;
-}
-
-#intro-butt:hover {
-	background-color: lightblue;
-}
 
 #footer {
 	background-color: lightgray;
+	color: gray;
+	border-top: 1px solid #bfbdbd;
 	width: 100%;
 	height: 50px;
+	clear: both;
 	position: absolute;
-
+	left: 0;
 	bottom: 0;
 }
 
@@ -79,11 +133,118 @@ body {
 
 
 /* Main.html */
-#desc {
-	width: 25%;
-	float: left;
+#content-pers {
+	padding: 25px;
+	width: 90%;
+	overflow: hidden;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
 }
+
 
 #pers-grid {
 	width: 50%;
+	min-width: 500px;
+	overflow: hidden;
+	background-color: #f7f7f7;
+	border: 1px solid lightgray;
+	padding: 5px;
+
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#pers-grid img {
+	width: 100%;
+}
+
+#weather {
+	background-color: #f7f7f7;
+	height: 50px;
+	bottom: 0;
+	text-align: center;
+}
+
+#weather img {
+	height: 100%;
+	width: auto;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#weather p {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 0;
+	margin: 0;
+}
+
+#weather-detail {
+	width: 50%;
+	text-align: center;
+	font-size: 1.5em;
+	line-height: 35px;
+
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+}
+
+#weather-detail p {
+	margin: 5px;
+}
+
+#weather-detail span {
+	font-size: 1.5em;
+	font-weight: bolder;
+}
+
+/** Templates **/
+#template-wrapper {
+	width: 100%;
+	display: inline-block;
+	overflow: hidden;
+}
+
+.bot-top-contain {
+	float: left;
+	width: 50%;
+	height: 300px;
+}
+
+.bot-top {
+	float: left;
+	clear:left;
+	width: 100%;
+	background-size: cover;
+	height: 250px;
+}
+
+.side-clothing {
+	width: 50%;
+	float: left;
+	height: auto;
+	background-size: cover;
+	height: 500px;
+}
+
+.clothing {
+	width: 50%;
+	float: left;
+	height: auto;
+	background-size: cover;
+	height: 275px;
+}
+
+/* special case */
+/* shirt + pants */
+#shirt {
+	width: 65%;
+	height: 300px;
+}
+
+#pants {
+	width: 35%;
+	height: 300px;
 }
