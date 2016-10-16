@@ -206,7 +206,7 @@ function getOutput(data) {
   var chillyRain   = [["t_shirt_short", "chino", "light_jacket"], ["t_shirt_short", "jean", "light_jacket"]];
   var chillyNoRain = [["t_shirt_short", "chino"], ["t_shirt_short", "jean"]];
   var coldRain     = [["hoodie", "light_jacket", "chino"], ["hoodie", "light_jacket", "jean"], ["sweater", "light_jacket", "chino"], ["sweater", "light_jacket", "jean"]];
-  var coldNoRain   = [["t_shirt_short", "hoodie", "chino"], ["t_shirt_short", "hoodie", "jean"];
+  var coldNoRain   = [["t_shirt_short", "hoodie", "chino"], ["t_shirt_short", "hoodie", "jean"]];
   var vColdRain    = [["hoodie", "heavy_jacket", "chino"], ["hoodie", "heavy_jacket", "jean"], ["sweater", "heavy_jacket", "chino"], ["sweater", "heavy_jacket", "jean"]];
   var vColdNoRain  = [["hoodie", "light_jacket", "chino"], ["hoodie", "heavy_jacket", "chino"], ["hoodie", "light_jacket", "jean"], ["hoodie", "heavy_jacket", "jean"],
                       ["sweater", "light_jacket", "chino"], ["sweater", "heavy_jacket", "chino"], ["sweater", "light_jacket", "jean"], ["sweater", "heavy_jacket", "jean"]];
@@ -249,7 +249,6 @@ function getOutput(data) {
   var randNum = Math.floor((Math.random() * typeOfWeather.length) + 1);
   var outfit = typeOfWeather[randNum];
   var finalColor;
-  getCloset('assets/img/0.jpg');
   console.log("Hour: " + hour + " Description: " + description + " Temp: " + temp + " Rain: " + rain + " Oufit: " + outfit);
 }
 
