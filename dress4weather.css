@@ -1,0 +1,27 @@
+/*
+This is the css file for dress4weather.
+*/
+
+h1 {
+	margin: auto;
+}
+
+.clothes, #head, #shoes {
+	background-color: cyan;
+}
+
+.clothes {
+	height: 200px;
+	width: 200px;
+}
+
+#head, #shoes {
+	margin: auto;
+	height : 100px;
+	width: 100px;
+}
+
+#selection {
+	margin-left: 50px;
+	width: 200px;
+}
