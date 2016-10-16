@@ -41,7 +41,7 @@ function processImages() {
 }
 
 function predictTest() {
-  app.models.predict("clothes-v1", 'http://pukkaind.biz/images/categories/16Wool%20varsity%20Letterman%20jacket%20Royal-white.jpg').then(
+  app.models.predict("clothes-v2", 'http://pukkaind.biz/images/categories/16Wool%20varsity%20Letterman%20jacket%20Royal-white.jpg').then(
     function(response) {
       var clothes = response.data.outputs[0].data.concepts;
       if (clothes[0].value < 0.1) {
