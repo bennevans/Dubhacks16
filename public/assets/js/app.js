@@ -4,6 +4,7 @@ var app = new Clarifai.App(
 );
 var weather;
 var currentPrediction = "fail";
+var predicitonReady = false;
 var closet;
 var refCats = ["shirts","bottoms","outerwear"];
 var refItems = [["ssleeve","polo","lbutton","lsleeve","sbutton","tanks.dat"],
@@ -52,12 +53,14 @@ function showLocation(position) {
 
 function predict(clothesModel, imgBase64) {
   var info;
+  predicitonReady = false;
   app.models.predict(clothesModel, imgBase64).then(
     function(response) {
       var data = predictCore(response);
       var category = data.split("|")[0];
       var type = data.split("|")[1];
       currentPrediction = type;
+      predicitonReady = true;
     },
     function(err) {
       // there was an error
@@ -178,7 +181,7 @@ function getCloset(source) {
     //Bumm, here is the closest color from the array
     modifiedColor = base_colors[index];
     predict('clothes-v2', 'https://students.washington.edu/akash221/public/' + source);
-
+    while(!predicitonReady){}
     console.log("Type : " + currentPrediction + " Color: " + modifiedColor);
 
   }
