@@ -37,11 +37,11 @@ function processImages() {
     var dataURL = canvas.toDataURL(filename);
     //alert("from getbase64 function"+dataURL );   
     console.log(dataURL);
-    var data = predict(clothesModel, 'https://students.washington.edu/akash221/public/assets/img/0.jpg');//dataURL); 
-    var category = data.split("|")[0];
-    var type = data.split("|")[1];
-
-    clothing.id = type;
+    //var data = 
+    predict(clothesModel, 'https://students.washington.edu/akash221/public/assets/img/0.jpg', clothing);//dataURL); 
+    // var category = data.split("|")[0];
+    // var type = data.split("|")[1];
+    // clothing.id = type;
   }
 }
 
@@ -117,12 +117,15 @@ function predictTest() {
 //     return dataURL;
 // } 
 
-function predict(clothesModel, imgBase64) {
+function predict(clothesModel, imgBase64, element) {
   console.log('base64 ' + imgBase64);
-  var _response;
+  var info;
   app.models.predict(clothesModel, imgBase64).then(
     function(response) {
-      predictCore(response);
+      var data = predictCore(response);
+      var category = data.split("|")[0];
+      var type = data.split("|")[1];
+      element.id = type;
     },
     function(err) {
       console.error('error: ' + err.message);
