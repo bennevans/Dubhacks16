@@ -3,9 +3,19 @@ var app = new Clarifai.App(
   'QiCvvZcc_Nms65D2VSBZCqqG4xHscOpogE7eWOKv'
 );
 
-//var model = Clarifai.Models.get("clothes-v1");
+window.onload = function() {
+  predictTest();
+  // var category = data.split("|")[0];
+  // var type = data.split("|")[1];
+  // console.log(category);
+  // console.log(type);
+};
 
 var numClothes = 50;
+var refCats = ["shirts","bottoms","outerwear"];
+var refItems = [["ssleeve","polo","lbutton","lsleeve","sbutton","tanks.dat"],
+   ["chino","jeans","shorts"],
+   ["djacket","hjacket","hoodies","ljacket","sweaters"]];
 
 function processImages() {
   for(var i = 0; i < numClothes; i++) {
@@ -30,15 +40,65 @@ function processImages() {
   }
 }
 
-app.models.predict("clothes-v1", 'http://images.firetrap.com/images/imgzoom/64/64426291_xxl.jpg').then(
-  function(response) {
-    var info = JSON.parse(response);
-    console.log(info.data);
-  },
-  function(err) {
-    console.error(err);
-  }
-);
+function predictTest() {
+  app.models.predict("clothes-v1", 'http://pukkaind.biz/images/categories/16Wool%20varsity%20Letterman%20jacket%20Royal-white.jpg').then(
+    function(response) {
+      var clothes = response.data.outputs[0].data.concepts;
+      if (clothes[0].value < 0.1) {
+        return "fail|fail";
+      }
+
+      var info = "";
+      var categories = [];
+      var types = [];
+
+      //Sort into two arrays
+      for (var i = 0; i < clothes.length; i++) {
+        var value = clothes[i].value;
+        var id = clothes[i].id;
+        var index = refCats.indexOf(id);
+        console.log(id);
+        console.log(value);
+        if(index != -1 && value >= 0.1) {
+          categories.push(id);
+        }
+        else if (index == -1 && value >= 0.1){
+          types.push(id);
+        }
+      }
+      //No categories fit
+      console.log("hi");
+      console.log(categories);
+      console.log(types);
+      if (categories.length == 0) {
+        return "fail|fail";
+      }
+      else {
+        info = categories[0];
+        var index = refCats.indexOf(info);
+        //check the greatest type that is in the same category
+        for (var i = 0; i < types.length; i++) {
+          var found = false;
+          if (refItems[index].indexOf(types[i]) != -1) {
+            info += "|" + types[i];
+            found = true;
+            break;
+          }
+        }
+        if (found == false) {
+          info += "|fail";
+        }
+      }
+      console.log(info);
+      return info;
+      
+    },
+    function(err) {
+      console.error(err);
+      console.log("error");
+    }
+  );
+}
 // function getBase64Image(){     
 //     p=document.getElementById("fileUpload").value;
 //     img1.setAttribute('src', p); 
