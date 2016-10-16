@@ -288,20 +288,24 @@ function getOutfitGrid(outfit) {
   console.log("Color: " + color);
   console.log("URL: " + url);
 
+
+  var map = {"lsleeve":"Long Sleeve", "ssleeve": "Short Sleeve", "hjacket": "Light Jacket", "chino":"Chino", "hoodies":"Hooide"
+             ,"jeans":"Jeans"};
+
   if (size == 2) {
     if (outfit.indexOf('shorts') > -1) {
       template = "<div class = 'clothing' id = 'shirt' style = 'background-image: url(" + url[0] +");'></div><div class = 'clothing' id = 'pants' style = 'background-image: url(" + url[1] +");'></div>";
     } else {
       template = "<div class = 'clothing' style = 'background-image: url(" + url[0] +");'></div><div class = 'clothing' style = 'background-image: url(" + url[0] + ");'></div>";
     }
-    document.getElementById('what-to-wear').innerHTML = "You should wear a <span style=color:#" + color[0] +">" + outfit[0] + "</span> and <span style=color:#" + color[1] + ">" + outfit[1] + "</span>."
+    document.getElementById('what-to-wear').innerHTML = "You should wear a <span style=color:#" + color[0] +">" + map[outfit[0]] + "</span> and <span style=color:#" + color[1] + ">" + map[outfit[1]] + "</span>."
   } else {
     if (outfit.indexOf('shorts') > -1) {
       template = "<div class = 'clothing' style = 'background-image: url(" + url[1] +");'></div><div class = 'bot-top-contain'><div class = 'bot-top' style = 'background-image: url(" + url[0] +");'></div><div class = 'bot-top' style = 'background-image: url(" + url[2] +");'></div></div>";
     } else {
       template = "<div class = 'bot-top-contain'><div class = 'bot-top' style = 'background-image: url(" + url[1] + ");'></div><div class = 'bot-top' style = 'background-image: url(" + url[0] +");'></div></div><div class = 'side-clothing' style = 'background-image: url(" + url[2] +");'></div>";
     }
-    document.getElementById('what-to-wear').innerHTML = "You should wear a <span style=color:#" + color[0] +">" + outfit[0] + "</span>, <span style=color:#" + color[1] +">" + outfit[1] + "</span> and <span style=color:#" + color[2] +">" + outfit[2] + "</span>."
+    document.getElementById('what-to-wear').innerHTML = "You should wear a <span style=color:#" + color[0] +">" + map[outfit[0]] + "</span>, <span style=color:#" + color[1] +">" + map[outfit[1]] + "</span> and <span style=color:#" + color[2] +">" + map[outfit[2]] + "</span>."
   }
 
   document.getElementById('template-wrapper').innerHTML = template;
