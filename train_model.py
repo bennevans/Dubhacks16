@@ -6,8 +6,8 @@ import json
 CLIENT_ID = os.environ['CLARIFAI_CLIENT_ID']
 CLIENT_SECRET = os.environ['CLARIFAI_CLIENT_SECRET']
 DATA_DIR = 'data'
-CURRENT_MODEL = 'test_pants3'
-TRAIN = False
+CURRENT_MODEL = 'clothes-v1'
+TRAIN = True
 
 def listdir_nohidden(path):
 	ret = []
