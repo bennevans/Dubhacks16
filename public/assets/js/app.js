@@ -4,7 +4,7 @@ var app = new Clarifai.App(
 );
 var weather;
 var currentPrediction = "fail";
-var predicitonReady = false;
+var predictionReady = false;
 var closet;
 var refCats = ["shirts","bottoms","outerwear"];
 var refItems = [["ssleeve","polo","lbutton","lsleeve","sbutton","tanks.dat"],
@@ -53,14 +53,14 @@ function showLocation(position) {
 
 function predict(clothesModel, imgBase64) {
   var info;
-  predicitonReady = false;
+  predictionReady = false;
   app.models.predict(clothesModel, imgBase64).then(
     function(response) {
       var data = predictCore(response);
       var category = data.split("|")[0];
       var type = data.split("|")[1];
       currentPrediction = type;
-      predicitonReady = true;
+      predictionReady = true;
     },
     function(err) {
       // there was an error
