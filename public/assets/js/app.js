@@ -4,7 +4,7 @@ var app = new Clarifai.App(
 );
 var weather;
 var currentPrediction = "fail";
-var closet;
+var closet = [];
 var refCats = ["shirts","bottoms","outerwear"];
 var refItems = [["ssleeve","polo","lbutton","lsleeve","sbutton","tanks.dat"],
    ["chino","jeans","shorts"],
