@@ -1,0 +1,17 @@
+{
+  "name": "ClothingPicker",
+  "homepage": "https://github.com/otterdude97/Dubhacks16",
+  "authors": [
+    "Akash Srinagesh <akashsrinagesh@gmail.com>"
+  ],
+  "description": "Picks clothing based on weather",
+  "main": "public/index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
