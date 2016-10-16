@@ -3,8 +3,10 @@ var app = new Clarifai.App(
   'QiCvvZcc_Nms65D2VSBZCqqG4xHscOpogE7eWOKv'
 );
 
+var clothesModel = "clothes-v2";
+
 window.onload = function() {
-  predictTest();
+  //predictTest();
   // var category = data.split("|")[0];
   // var type = data.split("|")[1];
   // console.log(category);
@@ -22,15 +24,16 @@ function processImages() {
     var clothing = document.createElement("img");
     clothing.id = i;
     clothing.className = "clothes";
-    clothing.setAttribute("src",i + ".jpg");
+    var filename = "assets/img/" + i + ".jpg";
+    clothing.setAttribute("src", filename);
 
     var canvas = document.createElement("canvas");
     canvas.width = clothing.width; 
     canvas.height = clothing.height; 
     var ctx = canvas.getContext("2d"); 
     ctx.drawImage(clothing, 0, 0); 
-    var dataURL = canvas.toDataURL(i + ".jpg");
-    alert("from getbase64 function"+dataURL );   
+    var dataURL = canvas.toDataURL(filename);
+    //alert("from getbase64 function"+dataURL );   
 
     var data = predict(clothesModel, dataURL); 
     var category = data.split("|")[0];
@@ -112,11 +115,14 @@ function predictTest() {
 // } 
 
 function predict(clothesModel, imgBase64) {
-  app.models.predict(clothesModel, {base64: imgBase64}).then(
+  console.log('base64 ' + imgBase64)
+  app.models.predict(clothesModel, imgBase64).then(
     function(response) {
+      return response;
       // do something with response
     },
     function(err) {
+      console.error('error: ' + err.message);
       // there was an error
     }
   );
