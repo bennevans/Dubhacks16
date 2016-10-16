@@ -4,12 +4,15 @@
 	<title>Your Outfit | OutfitIt</title>
 	<link href="https://fonts.googleapis.com/css?family=Lato|Raleway" rel="stylesheet">
 	<link href="assets/css/style.css" type="text/css" rel="stylesheet" />
-	<script src="dress4weather.js" type="text/javascript"></script>
+	<script type="text/javascript" src="https://sdk.clarifai.com/js/clarifai-2.0.9.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="assets/js/color-thief.js" type="text/javascript"></script>
+	<script src="assets/js/app.js" type="text/javascript"></script>
 </head>
 <body>
 	<div id = "wrapper">
 		<div id = "header">
-			<div id = "header-content">	
+			<div id = "header-content">
 				<h1>OutfitIt</h1>
 			</div>
 			<div id = "header-content-r">
@@ -19,10 +22,10 @@
 
 		<div id = "content">
 
-			<div id = "pers-grid"> 
+			<div id = "pers-grid">
 				<div id = "template-wrapper">
 				<!-- img src="assets/img/sample-main-7.png"> -->
-				<!-- 
+				<!--
 				TEMPLATE 1 (outer, in/out, pants)
 				<div class = "bot-top-contain">
 					<div class = "bot-top" style = "background-image: url('URL');"></div>
@@ -39,7 +42,7 @@
 				</div>
 
 
-				TEMPLATE 3 (shirt, pants) 
+				TEMPLATE 3 (shirt, pants)
 				<div class = "clothing" id = "shirt" style = "background-image: url('URL');"></div>
 				<div class = "clothing" id = "pants" style = "background-image: url('URL');"></div>
 
@@ -51,20 +54,20 @@
 				-->
 				</div>
 
-				<div id = "weather"> 
-						<img src="assets/img/weather/sunny.png">
-						<p>Sunny</p>
-						<p>72 F</p>
+				<div id = "weather">
+						<img id="weather-icon" src="">
+						<p id="weather-description"></p>
+						<p id="temp"></p>
 				</div>
 			</div>
 
 			<div id = "weather-detail">
-				<p>You should wear a <span style="color: red">red shirt</span>, <span style="color: green">green sweater</span> and <span style="color:navy">navy pants</span>.</p>
+				<p id="what-to-wear"></p>
 			</div>
 
 		</div>
 
 	</div>
-	
+
 </body>
 </html>

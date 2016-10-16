@@ -9,11 +9,10 @@ var refCats = ["shirts","bottoms","outerwear"];
 var refItems = [["ssleeve","polo","lbutton","lsleeve","sbutton","tanks.dat"],
    ["chino","jeans","shorts"],
    ["djacket","hjacket","hoodies","ljacket","sweaters"]];
-var numClothes = 4;
+var numClothes = 14;
 
 window.onload = function() {
     if (navigator.geolocation) {
-        console.log("no cookie");
         navigator.geolocation.getCurrentPosition(showLocation);
     } else {
         alert('It seems like Geolocation, which is required for this page,' +
@@ -47,20 +46,18 @@ function showLocation(position) {
     lat = (lat * 1000) / 1000;
     long = (long * 1000) / 1000;
 
-    console.log("Lat: " + lat + " Long: " + long);
-
     fetchData(lat, long);
 }
 
-function predict(clothesModel, imgBase64) {
+function predict(clothesModel, imgBase64, id, modifiedColor) {
   var info;
-  app.models.predict(clothesModel, imgBase64).then(
+  app.models.predict(clothesModel, imgBase64, id, modifiedColor).then(
     function(response) {
       var data = predictCore(response);
       var category = data.split("|")[0];
       var type = data.split("|")[1];
       currentPrediction = type;
-      closet.push([type, modifiedColor]);
+      closet.push([type, modifiedColor, id]);
     },
     function(err) {
       // there was an error
@@ -91,8 +88,6 @@ function predictCore(response) {
         types.push(id);
       }
     }
-    console.log(categories);
-    console.log(types);
     if (categories.length == 0) {
       return "fail|fail";
     }
@@ -112,13 +107,12 @@ function predictCore(response) {
         info += "|fail";
       }
     }
-    console.log(info);
     return info;
 }
 
 function processImages() {
   for(var i = 0; i < numClothes; i++) {
-    var filename = "assets/img/" + i + ".jpg";
+    var filename = "assets/img/" + i + ".png";
     //predict(clothesModel, filename);
     getCloset(filename);
   }
@@ -153,7 +147,7 @@ function getCloset(source) {
     var color = rgbToHex(colorThief.getColor(myImage)[0],colorThief.getColor(myImage)[1],colorThief.getColor(myImage)[2]);
     var base_colors=["5F444A","B5444A","66685B","3F454E","000000","6B494B","f44242","6d0202","f29d9d","ff7b00","d6a82a","5a6d0f",
                     "58d18e","1abfe0","6b84ef","a4d7d8","273e6b","6f46a8","9487db","330770","efa0eb","a31351","93a354","f5f5dc",
-                    "#98cec2"];
+                    "98cec2", "f5f5dc"];
 
     //Convert to RGB, then R, G, B
     var color_rgb = hex2rgb(color);
@@ -187,10 +181,8 @@ function getCloset(source) {
     var index = differenceArray.indexOf(lowest);
 
     //Bumm, here is the closest color from the array
-    modifiedColor = base_colors[index];
-    predict('clothes-v2', 'https://students.washington.edu/akash221/public/' + source);
-    console.log("Type : " + currentPrediction + " Color: " + modifiedColor);
-
+    var modifiedColor = base_colors[index];
+    predict('clothes-v2', 'https://students.washington.edu/akash221/public/' + source, source, modifiedColor);
   }
 }
 
@@ -202,43 +194,52 @@ function getOutput(data) {
   var temp = weather.Days[1].Timeframes[hour].temp_f;
   var rain = (weather.Days[1].Timeframes[hour].prob_precip_pct > 25);
 
-  var summerNoRain = [["t_shirt_short", "shorts"]];
-  var chillyRain   = [["t_shirt_short", "chino", "light_jacket"], ["t_shirt_short", "jean", "light_jacket"]];
-  var chillyNoRain = [["t_shirt_short", "chino"], ["t_shirt_short", "jean"]];
-  var coldRain     = [["hoodie", "light_jacket", "chino"], ["hoodie", "light_jacket", "jean"], ["sweater", "light_jacket", "chino"], ["sweater", "light_jacket", "jean"]];
-  var coldNoRain   = [["t_shirt_short", "hoodie", "chino"], ["t_shirt_short", "hoodie", "jean"]];
-  var vColdRain    = [["hoodie", "heavy_jacket", "chino"], ["hoodie", "heavy_jacket", "jean"], ["sweater", "heavy_jacket", "chino"], ["sweater", "heavy_jacket", "jean"]];
-  var vColdNoRain  = [["hoodie", "light_jacket", "chino"], ["hoodie", "heavy_jacket", "chino"], ["hoodie", "light_jacket", "jean"], ["hoodie", "heavy_jacket", "jean"],
-                      ["sweater", "light_jacket", "chino"], ["sweater", "heavy_jacket", "chino"], ["sweater", "light_jacket", "jean"], ["sweater", "heavy_jacket", "jean"]];
+  var summerNoRain = [["ssleeve", "shorts"]];
+  var chillyRain   = [["ssleeve", "chino", "hjacket"], ["ssleeve", "jeans", "hacket"]];
+  var chillyNoRain = [["ssleeve", "chino"], ["ssleeve", "jeans"]];
+  var coldRain     = [["hoodies", "hjacket", "chino"], ["hoodies", "hjacket", "jeans"], ["lsleeve", "hjacket", "chino"], ["lsleeve", "hjacket", "jeans"]];
+  var coldNoRain   = [["ssleeve", "hoodies", "chino"], ["ssleeve", "hoodies", "jeans"]];
+  var vColdRain    = [["hoodies", "hjacket", "chino"], ["hoodies", "hjacket", "jeans"], ["lsleeve", "hjacket", "chino"], ["lsleeve", "hjacket", "jeans"]];
+  var vColdNoRain  = [["hoodies", "hjacket", "chino"],["hoodies", "hjacket", "jeans"],
+                      ["lsleeve", "hjacket", "chino"], ["lsleeve", "hjacket", "jeans"]];
 
   var typeOfWeather;
+  var weatherImage;
   switch (true) {
       case (temp >= 90):
           if(rain) {
             typeOfWeather = summerRain;
+            weatherImage = "raining.png";
           } else {
             typeOfWeather = summerNoRain;
+            weatherImage = "sunny.png";
           }
           break;
       case (temp >= 70 && temp < 90):
           if(rain) {
             typeOfWeather = chillyRain;
+            weatherImage = "raining.png";
           } else {
             typeOfWeather = chillyNoRain;
+            weatherImage = "cloudy.png"
           }
           break;
       case (temp >= 60 && temp < 70):
           if(rain) {
             typeOfWeather = coldRain;
+            weatherImage = "raining.png";
           } else {
             typeOfWeather = coldNoRain;
+            weatherImage = "cloudy.png"
           }
           break;
       case (temp < 60):
           if(rain) {
             typeOfWeather = vColdRain;
+            weatherImage = "raining.png"
           } else {
             typeOfWeather = vColdNoRain;
+            weatherImage = "cloudy.png"
           }
           break;
       default:
@@ -249,8 +250,58 @@ function getOutput(data) {
   var randNum = Math.floor((Math.random() * typeOfWeather.length) + 1);
   var outfit = typeOfWeather[randNum];
   var finalColor;
+
+  document.getElementById("weather-icon").src = "assets/img/weather/" + weatherImage;
+  document.getElementById('weather-description').innerHTML = description;
+  document.getElementById('temp').innerHTML = temp + "F";
+  getOutfitGrid(outfit);
   console.log("Hour: " + hour + " Description: " + description + " Temp: " + temp + " Rain: " + rain + " Oufit: " + outfit);
+
 }
 
+// You should wear a <span style="color: red">red shirt</span>, <span style="color: green">green sweater</span> and <span style="color:navy">navy pants</span>.
 function getOutfitGrid(outfit) {
+  // one -> hoodie, jacket, pants
+  // one -> shirt, hoodie, pants
+  // two -> shirt, hoodie, shorts
+  // three -> shirt, pants
+  // four -> shirt, short
+  var size  = outfit.length;
+  var closetSize = closet.length;
+  var template;
+
+  var color = [];
+  var url = [];
+  for (var i = 0; i < size; i++) {
+    var type = outfit[i];
+    for (var j = 0; j < closetSize; j++) {
+      console.log("Closet Choice: " + closet[j][0] + " Type: " + type);
+      if (closet[j][0] == type) {
+        color[i] = closet[j][1];
+        url[i] = closet[j][2];
+        break;
+      }
+    }
+  }
+
+  console.log("Color: " + color);
+  console.log("URL: " + url);
+
+  if (size == 2) {
+    if (outfit.indexOf('shorts') > -1) {
+      template = "<div class = 'clothing' id = 'shirt' style = 'background-image: url(" + url[0] +");'></div><div class = 'clothing' id = 'pants' style = 'background-image: url(" + url[1] +");'></div>";
+    } else {
+      template = "<div class = 'clothing' style = 'background-image: url(" + url[0] +");'></div><div class = 'clothing' style = 'background-image: url(" + url[0] + ");'></div>";
+    }
+    document.getElementById('what-to-wear').innerHTML = "You should wear a <span style=color:#" + color[0] +">" + outfit[0] + "</span> and <span style=color:#" + color[1] + ">" + outfit[1] + "</span>."
+  } else {
+    if (outfit.indexOf('shorts') > -1) {
+      template = "<div class = 'clothing' style = 'background-image: url(" + url[1] +");'></div><div class = 'bot-top-contain'><div class = 'bot-top' style = 'background-image: url(" + url[0] +");'></div><div class = 'bot-top' style = 'background-image: url(" + url[2] +");'></div></div>";
+    } else {
+      template = "<div class = 'bot-top-contain'><div class = 'bot-top' style = 'background-image: url(" + url[1] + ");'></div><div class = 'bot-top' style = 'background-image: url(" + url[0] +");'></div></div><div class = 'side-clothing' style = 'background-image: url(" + url[2] +");'></div>";
+    }
+    document.getElementById('what-to-wear').innerHTML = "You should wear a <span style=color:#" + color[0] +">" + outfit[0] + "</span>, <span style=color:#" + color[1] +">" + outfit[1] + "</span> and <span style=color:#" + color[2] +">" + outfit[2] + "</span>."
+  }
+
+  document.getElementById('template-wrapper').innerHTML = template;
 }
