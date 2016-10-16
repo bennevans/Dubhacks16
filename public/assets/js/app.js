@@ -10,6 +10,7 @@ var refItems = [["ssleeve","polo","lbutton","lsleeve","sbutton","tanks.dat"],
    ["chino","jeans","shorts"],
    ["djacket","hjacket","hoodies","ljacket","sweaters"]];
 var numClothes = 14;
+var outfit;
 
 window.onload = function() {
     if (navigator.geolocation) {
@@ -248,13 +249,13 @@ function getOutput(data) {
   }
 
   var randNum = Math.floor((Math.random() * typeOfWeather.length) + 1);
-  var outfit = typeOfWeather[randNum];
+  outfit = typeOfWeather[randNum];
   var finalColor;
 
   document.getElementById("weather-icon").src = "assets/img/weather/" + weatherImage;
   document.getElementById('weather-description').innerHTML = description;
   document.getElementById('temp').innerHTML = temp + "F";
-  getOutfitGrid(outfit);
+  setTimeout(function() {getOutfitGrid(outfit)}, 5000);
   console.log("Hour: " + hour + " Description: " + description + " Temp: " + temp + " Rain: " + rain + " Oufit: " + outfit);
 
 }
