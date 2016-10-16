@@ -13,11 +13,13 @@ window.onload = function() {
   // console.log(type);
 };
 
-var numClothes = 50;
+var numClothes = 4;
 var refCats = ["shirts","bottoms","outerwear"];
 var refItems = [["ssleeve","polo","lbutton","lsleeve","sbutton","tanks.dat"],
    ["chino","jeans","shorts"],
    ["djacket","hjacket","hoodies","ljacket","sweaters"]];
+
+//function 
 
 function processImages() {
   for(var i = 0; i < numClothes; i++) {
@@ -26,7 +28,7 @@ function processImages() {
     clothing.className = "clothes";
     var filename = "assets/img/" + i + ".jpg";
     clothing.setAttribute("src", filename);
-
+    console.log(clothing);
     var canvas = document.createElement("canvas");
     canvas.width = clothing.width; 
     canvas.height = clothing.height; 
@@ -34,8 +36,8 @@ function processImages() {
     ctx.drawImage(clothing, 0, 0); 
     var dataURL = canvas.toDataURL(filename);
     //alert("from getbase64 function"+dataURL );   
-
-    var data = predict(clothesModel, dataURL); 
+    console.log(dataURL);
+    var data = predict(clothesModel, 'https://students.washington.edu/akash221/public/assets/img/0.jpg');//dataURL); 
     var category = data.split("|")[0];
     var type = data.split("|")[1];
 
@@ -93,6 +95,7 @@ function predictTest() {
         }
       }
       console.log(info);
+      alert(info);
       return info;
       
     },
@@ -115,15 +118,70 @@ function predictTest() {
 // } 
 
 function predict(clothesModel, imgBase64) {
-  console.log('base64 ' + imgBase64)
+  console.log('base64 ' + imgBase64);
+  var _response;
   app.models.predict(clothesModel, imgBase64).then(
     function(response) {
-      return response;
-      // do something with response
+      predictCore(response);
     },
     function(err) {
       console.error('error: ' + err.message);
       // there was an error
     }
+    //re
   );
+  console.log(_response);
+}
+
+function predictCore(response) {
+  //var response = _response;
+  console.log(response);
+   var clothes = response.data.outputs[0].data.concepts;
+    if (clothes[0].value < 0.1) {
+      return "fail|fail";
+    }
+
+    var info = "";
+    var categories = [];
+    var types = [];
+
+    //Sort into two arrays
+    for (var i = 0; i < clothes.length; i++) {
+      var value = clothes[i].value;
+      var id = clothes[i].id;
+      var index = refCats.indexOf(id);
+      console.log(id);
+      console.log(value);
+      if(index != -1 && value >= 0.1) {
+        categories.push(id);
+      }
+      else if (index == -1 && value >= 0.1){
+        types.push(id);
+      }
+    }
+    //No categories fit
+    console.log("hi");
+    console.log(categories);
+    console.log(types);
+    if (categories.length == 0) {
+      return "fail|fail";
+    }
+    else {
+      info = categories[0];
+      var index = refCats.indexOf(info);
+      //check the greatest type that is in the same category
+      for (var i = 0; i < types.length; i++) {
+        var found = false;
+        if (refItems[index].indexOf(types[i]) != -1) {
+          info += "|" + types[i];
+          found = true;
+          break;
+        }
+      }
+      if (found == false) {
+        info += "|fail";
+      }
+    }
+    console.log(info);
+    return info;
 }
