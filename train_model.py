@@ -6,8 +6,9 @@ import json
 CLIENT_ID = os.environ['CLARIFAI_CLIENT_ID']
 CLIENT_SECRET = os.environ['CLARIFAI_CLIENT_SECRET']
 DATA_DIR = 'data'
-CURRENT_MODEL = 'clothes-v1'
-TRAIN = True
+CURRENT_MODEL = 'clothes-v2'
+TRAIN = False
+FIRST_TIME = False
 
 def listdir_nohidden(path):
 	ret = []
@@ -41,7 +42,7 @@ def get_non_concepts(classes, i_r, j_r):
 
 app = ClarifaiApp(CLIENT_ID, CLIENT_SECRET)
 
-if TRAIN:
+if TRAIN and not FIRST_TIME:
 	raw_input('About to delete and re-train model! Press Enter to continue')
 
 	print 'deleting old model'	
@@ -86,8 +87,8 @@ else:
 	model = model.train()
 
 print 'predicting'
-test_url = 'http://g.nordstromimage.com/ImageGallery/store/product/Zoom/5/_10745125.jpg'
-print json.dumps(model.predict_by_url(url=test_url))
+test_url = 'https://anf.scene7.com/is/image/anf/hol_128703_05_prod1?$product-hol-v1$&wid=800&hei=1000'
+print json.dumps(model.predict_by_url(url=test_url)["outputs"][0]["data"]["concepts"], indent=4, separators=(',', ': '))
 
 
 
