@@ -181,7 +181,7 @@ function getCloset(source) {
     //Bumm, here is the closest color from the array
     modifiedColor = base_colors[index];
     predict('clothes-v2', 'https://students.washington.edu/akash221/public/' + source);
-    while(!predicitonReady){}
+    while(!predictionReady){}
     console.log("Type : " + currentPrediction + " Color: " + modifiedColor);
 
   }
